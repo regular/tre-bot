@@ -6,12 +6,12 @@ module.exports = function(config) {
     .use(SSB)
     .use(require('ssb-unix-socket'))
     .use(require('ssb-master'))
-    .use(require('ssb-gossip'))
+    .use(require('ssb-conn'))
     .use(require('ssb-replicate'))
     .use(require('ssb-friends'))
     .use(require('ssb-blobs'))
     .use(require('ssb-invite'))
-    .use(require('ssb-local'))
+    .use(require('ssb-lan'))
     .use(require('ssb-logging'))
     .use(require('ssb-query'))
     .use(require('ssb-links'))
@@ -25,8 +25,15 @@ module.exports = function(config) {
     const merged = Object.assign({}, config, {keys})
     const ssb = createSbot(merged)
 
-    // TODO: wait for the server to listen
-    cb(null, ssb)
+    // wait for the server to listen
+    const timeout = setTimeout( ()=>{
+      cb(new Error('timeout while waiting for multiserver:listening event'))
+    }, 2000)
+
+    ssb.once('multiserver:listening', e=>{
+      clearTimeout(timeout)
+      cb(null, ssb)
+    })
   }
   ret.use = function(x) {
     createSbot.use(x)
