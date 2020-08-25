@@ -5,18 +5,19 @@ var tape      = require('tape')
 var pull      = require('pull-stream')
 var ssbKeys   = require('ssb-keys')
 
-var u = require('./util')
+var u = require('./util/util')
 
 // create 3 servers
 // give them all pub servers (on localhost)
 // and get them to follow each other...
 
 var createSsbServer =
-  require('secret-stack')(require('./defaults'))
+  require('secret-stack')(require('./util/defaults'))
     .use(require('ssb-db'))
     .use(require('ssb-replicate'))
     .use(require('ssb-friends'))
     .use(require('ssb-conn'))
+    //.use(require('ssb-gossip'))
     .use(require('ssb-logging'))
 
 var createHash = require('crypto').createHash
@@ -53,7 +54,7 @@ var dbB = createSsbServer({
 var dbC = createSsbServer({
   temp: 'server-carol',
   port: 45453, timeout: 1400,
-  keys: alice = ssbKeys.generate(),
+  keys: carol = ssbKeys.generate(),
   caps: {
     shs: shs_cap1,
     sign: sign_cap1
@@ -64,16 +65,17 @@ var dbC = createSsbServer({
 
 tape('signatures not accepted if made from different caps', function (t) {
 
-
   dbA.publish({type: 'test', foo: true}, function (err, msg) {
-    if(err) throw err
+    if (err) {
+      console.log(dbA.config.caps.sign)
+      throw new Error(`alice publish failed: ${err.message}`)
+    }
     console.log(msg)
     dbB.add(msg.value, function (err) {
       t.ok(err) //should not be valid in this universe
       t.ok(/invalid/.test(err.message))
       console.log(err.stack)
       t.end()
-
     })
   })
 })
@@ -82,17 +84,13 @@ tape('cannot connect if different shs caps, custom -> default', function (t) {
   dbA.connect(dbB.getAddress(), function (err) {
     t.ok(err)
     console.log(err.stack)
-
     t.end()
-
   })
-
 })
 
 tape('cannot connect if different shs caps, default -> custom', function (t) {
   dbB.connect(dbA.getAddress(), function (err) {
     t.ok(err)
-
     console.log(err.stack)
     t.end()
   })
@@ -112,6 +110,3 @@ tape('cleanup', function (t) {
   dbC.close()
   t.end()
 })
-
-
-
