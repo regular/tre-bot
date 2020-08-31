@@ -1,6 +1,6 @@
 {
   "name": "tre-bot",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "scuttlebot, optimised for tre and embedding into bay-of-plenty",
   "main": "index.js",
   "scripts": {
