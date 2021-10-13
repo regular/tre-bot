@@ -31,16 +31,16 @@
   },
   "homepage": "https://github.com/regular/tre-bot#readme",
   "dependencies": {
-    "secret-stack": "^6.3.1",
-    "ssb-blobs": "1.2.3",
+    "secret-stack": "^6.4.0",
+    "ssb-blobs": "2.0.1",
     "ssb-config": "^3.4.5",
-    "ssb-conn": "^0.19.1",
-    "ssb-db": "^20.3.0",
-    "ssb-ebt": "^5.6.7",
-    "ssb-friends": "^4.2.1",
+    "ssb-conn": "^5.1.0",
+    "ssb-db": "^20.4.1",
+    "ssb-ebt": "^8.0.0",
+    "ssb-friends": "^5.1.0",
     "ssb-invite": "^2.1.7",
-    "ssb-keys": "^7.2.2",
-    "ssb-lan": "^0.2.0",
+    "ssb-keys": "^8.2.0",
+    "ssb-lan": "^1.0.0",
     "ssb-links": "^3.0.10",
     "ssb-local": "^1.0.0",
     "ssb-logging": "^1.0.0",
@@ -48,17 +48,17 @@
     "ssb-ooo": "^1.3.3",
     "ssb-plugins": "^1.0.4",
     "ssb-query": "^2.4.5",
-    "ssb-replicate": "^1.3.2",
+    "ssb-replicate": "^1.3.3",
     "ssb-revisions": "^1.6.0",
     "ssb-unix-socket": "^1.0.0",
-    "ssb-validate": "^4.1.3",
+    "ssb-validate": "^4.1.4",
     "ssb-ws": "github:regular/ssb-ws"
   },
   "devDependencies": {
     "compatibility": "^1.0.1",
     "cont": "^1.0.3",
-    "deep-equal": "^2.0.4",
+    "deep-equal": "^2.0.5",
     "pull-stream": "^3.6.14",
-    "tape": "^5.0.1"
+    "tape": "^5.3.1"
   }
 }
